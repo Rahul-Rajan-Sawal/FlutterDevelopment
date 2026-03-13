@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 class ViewDetails extends StatefulWidget {
   final Map<String, dynamic> lead;
-  const ViewDetails({Key? key, required this.lead}) : super(key: key);
+  final Map<String, dynamic> decryptedLead;
+
+  const ViewDetails({Key? key, required this.lead, required this.decryptedLead,
+}) : super(key: key);
 
   @override
   State<ViewDetails> createState() => _ViewDetailsState();
@@ -35,26 +38,44 @@ class _ViewDetailsState extends State<ViewDetails> {
   void initState() {
     super.initState();
 
-    leadId = widget.lead['leadId'] ?? 'Error loading lead Id';
-    leadValue = "₹${widget.lead['leadAmount'] ?? 0}";
-    name = widget.lead['name'] ?? '';
-    policyName = widget.lead['policyName'] ?? '';
-    premium = widget.lead['premium']?.toString() ?? '0';
-    vehicleMakeModel = widget.lead['vehiclemakemodel'] ?? '';
-    ncb = widget.lead['ncb'] ?? '';
-    addOn = widget.lead['addon'] ?? '';
-    activityStatus = widget.lead['activitystatus'] ?? '';
-    activityDoneBy = widget.lead['activitydoneby'] ?? '';
-    activityDate = widget.lead['activitydate'] ?? '';
-    remark = widget.lead['remark'] ?? '';
-    tremark = widget.lead['tremark'] ?? '';
-    policyNumber = widget.lead['policynumber'] ?? '';
-    leadType = widget.lead['leadtype'] ?? '';
-    leadStatus = widget.lead['leadstatus'] ?? '';
-    workflowStatus = widget.lead['workflowstatus'] ?? '';
-    activity = widget.lead['activity'] ?? '';
-    emailId = widget.lead['emailid'] ?? '';
-    mobilenumber = widget.lead['mobilenumber'] ?? '';
+String safeValue(dynamic value) {
+  if (value == null || value.toString().trim().isEmpty) {
+    return "Not Available";
+  }
+  return value.toString();
+}
+
+tremark="Not Available";
+addOn="Not Available";
+ /// VALUES FROM lead MAP
+leadId = safeValue(widget.lead['SrvcReqDtlCode']);
+name = safeValue(widget.lead['Name']);
+policyName = safeValue(widget.lead['ProdName']);
+leadValue = "₹${safeValue(widget.lead['leadAmt'])}";
+
+/// DECRYPTED VALUES FROM decryptedLead MAP
+mobilenumber = safeValue(widget.decryptedLead['MobileTel']);
+emailId = safeValue(widget.decryptedLead['Email']);
+policyNumber = safeValue(widget.decryptedLead['PolicyNo']);
+leadType = safeValue(widget.decryptedLead['LeadType']);
+
+premium = "₹${safeValue(widget.decryptedLead['InstallmentPrem'])}";
+
+vehicleMakeModel =
+    "${safeValue(widget.decryptedLead['Make'])} ${safeValue(widget.decryptedLead['Model'])}";
+
+ncb = safeValue(widget.decryptedLead['PolNCB']);
+
+activityStatus = safeValue(widget.decryptedLead['ActivityStatus']);
+
+activity = safeValue(widget.decryptedLead['TelesaleActivity']);
+activityDoneBy = safeValue(widget.decryptedLead['TelesaleActivityDoneBy']);
+activityDate = safeValue(widget.decryptedLead['TelesaleActivityDate']);
+
+remark = safeValue(widget.decryptedLead['TelesaleRemark']);
+
+workflowStatus = safeValue(widget.decryptedLead['WFStatus']);
+leadStatus = safeValue(widget.decryptedLead['WFStatDesc']);
   }
 
   @override
