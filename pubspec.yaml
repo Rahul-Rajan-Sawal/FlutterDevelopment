@@ -46,8 +46,12 @@ dependencies:
   path_provider: ^2.1.2
   shelf: ^1.1.0
   shelf_router: ^1.1.0
+  curved_navigation_bar: ^1.0.6
   flutter_riverpod: ^2.4.0
   intl: ^0.20.2
+  
+
+  
 
 
 

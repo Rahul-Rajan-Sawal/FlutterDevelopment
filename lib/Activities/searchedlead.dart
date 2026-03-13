@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bottom_nav/Activities/lead_summary.dart';
 import 'package:flutter_bottom_nav/Activities/lead_update_activity.dart';
 import 'package:flutter_bottom_nav/Activities/view_details.dart';
+import 'package:flutter_bottom_nav/common/common_util.dart';
+import 'package:flutter_bottom_nav/core/repository/leaddetails_repository.dart';
 
 class SearchedLead extends StatefulWidget {
   final List<Map<String, dynamic>> leadList;
@@ -185,7 +187,7 @@ class _SearchedLeadState extends State<SearchedLead> {
                         ),
                       ),
                       Container(
-                        height: screenHeight * 0.08,
+                        height: screenHeight * 0.09,
                         padding: const EdgeInsets.symmetric(vertical: 1),
                         decoration: const BoxDecoration(
                           color: Colors.white,
@@ -203,13 +205,13 @@ class _SearchedLeadState extends State<SearchedLead> {
                                   icon: Icon(
                                     Icons.post_add,
                                     color: Colors.grey[700],
-                                    size: 33,
+                                    size: 30,
                                   ),
                                   onPressed: () => _onUpdateActivity(lead),
                                 ),
                                 const Text(
                                   "Update Activity",
-                                  style: TextStyle(fontSize: 15),
+                                  style: TextStyle(fontSize: 12),
                                 ),
                               ],
                             ),
@@ -219,13 +221,13 @@ class _SearchedLeadState extends State<SearchedLead> {
                                   icon: Icon(
                                     Icons.article,
                                     color: Colors.grey[700],
-                                    size: 33,
+                                    size: 30,
                                   ),
                                   onPressed: () => _onViewSummary(lead),
                                 ),
                                 const Text(
                                   "View Summary",
-                                  style: TextStyle(fontSize: 15),
+                                  style: TextStyle(fontSize: 12),
                                 ),
                               ],
                             ),
@@ -235,13 +237,13 @@ class _SearchedLeadState extends State<SearchedLead> {
                                   icon: Icon(
                                     Icons.remove_red_eye,
                                     color: Colors.grey[700],
-                                    size: 33,
+                                    size: 30,
                                   ),
                                   onPressed: () => _onViewDetails(lead),
                                 ),
                                 const Text(
                                   "View Details",
-                                  style: TextStyle(fontSize: 15),
+                                  style: TextStyle(fontSize: 12),
                                 ),
                               ],
                             ),
@@ -273,11 +275,46 @@ class _SearchedLeadState extends State<SearchedLead> {
     print("View Summary clicked for ${lead['leadId']}");
   }
 
-  void _onViewDetails(Map<String, dynamic> lead) {
-    print("View Details clicked for ${lead['leadId']}");
+  void _onViewDetails(Map<String, dynamic> lead) async{
+
+String leadId = lead['SrvcReqDtlCode'];
+  print("View Details clicked for $leadId");
+
+
+ Map<String, dynamic> decryptedLead = {
+    //"Name": CommonUtil.decryptIfNotEmpty(lead["Name"]),
+    "LeadType":CommonUtil.decryptIfNotEmpty(lead["LeadType"]),
+    "ActivityStatus":CommonUtil.decryptIfNotEmpty(lead["ActivityStatus"]),
+    "ProdName": CommonUtil.decryptIfNotEmpty(lead["ProdName"]),
+    "MobileTel": CommonUtil.decryptIfNotEmpty(lead["MobileTel"]),
+    "Email": CommonUtil.decryptIfNotEmpty(lead["Email"]),
+    "PolicyNo": CommonUtil.decryptIfNotEmpty(lead["PolicyNo"]),
+    "InstallmentPrem":CommonUtil.decryptIfNotEmpty(lead["InstallmentPrem"]),
+    "PolicyStartDate": CommonUtil.decryptIfNotEmpty(lead["PolicyStartDate"]),
+    "PolicyEndDate": CommonUtil.decryptIfNotEmpty(lead["PolicyEndDate"]),
+    "RegistrationNo": CommonUtil.decryptIfNotEmpty(lead["RegistrationNo"]),
+    "Make": CommonUtil.decryptIfNotEmpty(lead["Make"]),
+    "Model": CommonUtil.decryptIfNotEmpty(lead["Model"]),
+    "PolNCB":CommonUtil.decryptIfNotEmpty(lead["PolNCB"]),
+    "TelesaleActivity":CommonUtil.decryptIfNotEmpty(lead["TelesaleActivity"]),
+    "TelesaleActivityDoneBy":CommonUtil.decryptIfNotEmpty(lead["TelesaleActivityDoneBy"]),
+    "TelesaleActivityDate":CommonUtil.decryptIfNotEmpty(lead["TelesaleActivityDate"]),
+    "TelesaleRemark":CommonUtil.decryptIfNotEmpty(lead["TelesaleRemark"]),
+    "WFStatus":CommonUtil.decryptIfNotEmpty(lead["WFStatus"]),
+    "WFStatDesc":CommonUtil.decryptIfNotEmpty(lead["WFStatDesc"]),
+    "FuelType": CommonUtil.decryptIfNotEmpty(lead["FuelType"]),
+    "VehicleType": CommonUtil.decryptIfNotEmpty(lead["VehicleType"]),
+  };
+    print(decryptedLead);
+
+
+
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ViewDetails(lead: lead)),
+      MaterialPageRoute(builder: (context) => ViewDetails(lead: lead,
+            decryptedLead: decryptedLead,
+
+      )),
     );
   }
 }
