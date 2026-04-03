@@ -1,6 +1,35 @@
 import 'dart:convert';
 
 class ApiRequestBuilder {
+
+
+static Map<String, dynamic> buildSearchLeadRequest({
+  required String sapCode,
+  required String leadNo,
+  required String policyNo,
+  required String tokenId,
+  required String callerId,
+  required String callerPass,
+}) {
+  return {
+   
+  //    "objSearchLead": {
+  //   "SAPCode": sapCode,
+  //   "LeadNo": leadNo,
+  //   "PolicyNo": policyNo,
+  //   "CallerId": callerId,
+  //   "CallerPass": callerPass,
+  //   "TokenId": tokenId,
+  // }
+     "UserId": sapCode,
+    "LeadNo": leadNo,
+    "PolicyNo": policyNo,
+    "CallerId": callerId,
+    "CallerPass": callerPass,
+    "TokenId": tokenId,
+  };
+}
+
   static String authenticateUserWithAppVersionn({
     required String userId,
     required String password,
@@ -94,4 +123,8 @@ class ApiRequestBuilder {
       "TokenId": TokenId,
     };
   }
+
+
+
+
 }
