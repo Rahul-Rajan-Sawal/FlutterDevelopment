@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bottom_nav/common/encryption_util.dart';
 import 'package:flutter_bottom_nav/common/progress_dialog.dart';
+import 'package:flutter_bottom_nav/core/static_variables.dart';
+import 'package:flutter_bottom_nav/database/database_helper.dart';
+import 'package:flutter_bottom_nav/models/contact_Model.dart';
+import 'package:sqflite_sqlcipher/sqflite.dart';
 
 class CommonUtil {
   static void show(BuildContext context, {String message = "Please wait..."}) {
@@ -47,4 +51,60 @@ class CommonUtil {
     if (total == 0) return 0.0;
     return (value * 100) / total;
   }
+
+  static Future<bool> isPrivacyFlag()async{
+
+    try{
+      final db = await DatabaseHelper.instance.database;
+
+      final result = await db.query(
+        'iUser',
+        where: 'UserId = ?',
+        whereArgs: [encryptIfNotEmpty(StaticVariables.mSAPCode)],
+      );
+
+
+      if(result.isNotEmpty){
+        String EncryptedPFlag = result.first['Privacy_Flag']?.toString() ?? '';
+
+        String DecryptedPFlag = decryptIfNotEmpty(EncryptedPFlag);
+        
+        return DecryptedPFlag.trim().toUpperCase()=='Y';
+      }
+
+      return false;
+
+    }catch(e){
+      print("Error Getting Privacy Flag : $e");
+      return false;
+    }
+  }
+
+Future<List<ContactModel>> getContactFrmCustCnct(
+  Database db,
+  String customerCode,
+  String type,
+) async {
+  try {
+    final result = await db.query(
+      'CUSTOMER_CONTACT',
+      where: 'CustomerCode = ? AND Type = ?',
+      whereArgs: [customerCode, type],
+    );
+
+    return result.map((row) {
+      final encryptedContact = row['Contact'] as String? ?? '';
+
+      return ContactModel(
+        custCode: row['CustomerCode'].toString(),
+        type: row['Type'].toString(),
+        contact: decryptIfNotEmpty(encryptedContact),
+      );
+    }).toList();
+  } catch (e) {
+    print("Error fetching contacts: $e");
+    return [];
+  }
+}
+
 }

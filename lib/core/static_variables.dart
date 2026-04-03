@@ -1,17 +1,29 @@
 class StaticVariables {
-  static const String baseUrl =
-      "https://iceservices.brobotinsurance.com/RGI_LMS_WRAPERAPI/api/lms";
-  static const String hostName = "iceservices.brobotinsurance.com";
+  //BaseUrl and HostName For Production
   // static const String baseUrl =
-  //     "https://mservices.brobotinsurance.com/LMSWEBAPIUAT/api/lms";
-  // static const String hostName = "mservices.brobotinsurance.com";
+  //     "https://iceservices.brobotinsurance.com/RGI_LMS_WRAPERAPI/api/lms";
+//      static const String ContentURL = "https://iceservices.reliancegeneral.co.in/RGI_LMS_WRAPERAPI/mFiles/";*/
+
+  // static const String hostName = "iceservices.brobotinsurance.com";
+   
+   //BaseUrl and HostName For UAT
+   static const String baseUrl =
+       "https://mservices.brobotinsurance.com/LMSWEBAPIUAT/api/lms";
+   static const String hostName = "mservices.brobotinsurance.com";
+  static const String ContentURL = "https://mservices.brobotinsurance.com/LMSWEBAPIUAT/mFiles/";
+
+
 
   static const String getApiValues = "GetApiValues";
   static const String authenticateUser = "AuthenticateUser_WithAppVersion",
       getSearchData = "GetSearchData",
       GetDashboardData = "GetDashboardData";
-  static const String appVersion = "23"; //prod
-  // static const String appVersion = "17";//uat
+
+
+           static const String SearchLead= "SearchLead";
+
+  // static const String appVersion = "23"; //prod
+   static const String appVersion = "17";//uat
   static const String prefsName = "MY_PREFS";
 
   static const String bootstrapAesKey = "M!croT3mp@123456";
